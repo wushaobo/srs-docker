@@ -24,8 +24,8 @@ EXPOSE 8080
 # for nginx gzip module
 RUN apt-get install zlib1g-dev
 
-RUN cd /opt/srs-2.0-r2/trunk && \
-	./configure --with-hls --with-dvr --with-nginx --with-transcode --with-ingest --with-stat --with-http-callback --with-http-server --with-http-api --log-trace \
+WORKDIR /opt/srs-2.0-r2/trunk
+RUN ./configure --with-hls --with-dvr --with-nginx --with-transcode --with-ingest --with-stat --with-http-callback --with-http-server --with-http-api --log-trace \
 				--without-hds --without-ssl --without-ffmpeg --without-stream-caster --without-librtmp --without-research --without-utest --without-gperf --without-gmc --without-gmp --without-gcp --without-gprof --without-arm-ubuntu12 --without-mips-ubuntu12	\
 				--jobs=4 --x86-x64 --log-trace && \
 	make
