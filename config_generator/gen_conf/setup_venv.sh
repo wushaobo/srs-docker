@@ -21,4 +21,5 @@ function pip_install () {
     deactivate
 }
 
+prepare_virtualenv
 pip_install venv requirements.txt

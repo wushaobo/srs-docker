@@ -20,8 +20,8 @@ RUN wget -q https://github.com/ossrs/srs/archive/v2.0-r2.zip -P /tmp/ && \
 RUN apt-get install zlib1g-dev
 
 WORKDIR /opt/srs
-RUN ./configure --with-hls --with-ssl --with-nginx --with-transcode --with-ingest --with-stat --with-http-callback --with-http-server --with-http-api --log-trace \
-				--without-hds --without-dvr --without-ffmpeg --without-stream-caster --without-librtmp --without-research --without-utest --without-gperf --without-gmc --without-gmp --without-gcp --without-gprof --without-arm-ubuntu12 --without-mips-ubuntu12	\
+RUN ./configure --with-hls --with-nginx --with-transcode --with-ingest --with-stat --with-http-callback --with-http-server --with-http-api --log-trace \
+				--without-hds --without-ssl --without-dvr --without-ffmpeg --without-stream-caster --without-librtmp --without-research --without-utest --without-gperf --without-gmc --without-gmp --without-gcp --without-gprof --without-arm-ubuntu12 --without-mips-ubuntu12	\
 				--jobs=4 --x86-x64 --log-trace && \
 	make
 
@@ -30,7 +30,7 @@ EXPOSE 8080
 EXPOSE 80
 
 COPY config_generator /tmp/srs/config_generator
-RUN cd /tmp/srs/config_generator && \
+RUN cd /tmp/srs/config_generator/gen_conf && \
 	./setup_venv.sh && \
 	cd -
 
