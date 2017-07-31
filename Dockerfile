@@ -1,6 +1,6 @@
 FROM debian:jessie
 
-COPY cn.list /etc/apt/sources.list
+COPY files/cn.list /etc/apt/sources.list
 RUN apt-get update && \
     apt-get install -y vim wget unzip telnet sudo net-tools locales-all python-pip ffmpeg
 
@@ -8,8 +8,8 @@ ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 
-RUN wget -q https://github.com/ossrs/srs/archive/v2.0-r2.zip -P /opt/ && \
-	cd /opt && \
+RUN wget -q https://github.com/ossrs/srs/archive/v2.0-r2.zip -P /tmp/ && \
+	cd /tmp && \
 	unzip v2.0-r2.zip && \
 	rm -f v2.0-r2.zip && \
 	mkdir -p /opt/srs/ && \
@@ -29,4 +29,10 @@ EXPOSE 1935
 EXPOSE 8080
 EXPOSE 80
 
-COPY nginx.conf /opt/srs/objs/nginx/conf/nginx.conf
+COPY config_generator /tmp/srs/config_generator
+RUN cd /tmp/srs/config_generator && \
+	./setup_venv.sh && \
+	cd -
+
+COPY files/nginx.conf /opt/srs/objs/nginx/conf/nginx.conf
+COPY files/gen_conf_and_run.sh /tmp/srs/gen_conf_and_run.sh
