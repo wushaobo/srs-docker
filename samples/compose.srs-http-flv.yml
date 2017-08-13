@@ -2,7 +2,7 @@ version: '3'
 
 services:
   srs:
-    image: daocloud.io/shaobo_wu/srs-docker:latest
+    image: daocloud.io/shaobo_wu/srs-docker:master-67d9517
     command: /opt/srs/objs/srs -c /opt/srs/conf/http.flv.live.conf
     ports:
       - "28080:8080"
