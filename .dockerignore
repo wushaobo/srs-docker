@@ -1,3 +1,4 @@
 LICENSE
 .git*
 .DS_Store
+.samples
