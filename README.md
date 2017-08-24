@@ -1,7 +1,7 @@
 # srs-docker
 This repository build docker image for [SRS](https://github.com/ossrs/srs).
 
-You can checkout the docker image at **daocloud.io/shaobo_wu/srs-docker**. The tag used below is **master-a054707**.
+You can checkout the docker image of [wushaobo/srs-docker](https://hub.docker.com/r/wushaobo/srs-docker/). The tag used below is **1.0** .
 
 ## SRS in image
 
@@ -38,7 +38,7 @@ version: '3'
 
 services:
   srs:
-    image: daocloud.io/shaobo_wu/srs-docker:master-67d9517
+    image: wushaobo/srs-docker:1.0
     command: /opt/srs/objs/srs -c /opt/srs/conf/http.flv.live.conf
     ports:
       - "28080:8080"
@@ -106,7 +106,7 @@ version: '3'
 
 services:
   srs:
-    image: daocloud.io/shaobo_wu/srs-docker:master-67d9517
+    image: wushaobo/srs-docker:1.0
     command: /tmp/srs/gen_conf_and_run.sh
     ports:
       - "21935:1935"
