@@ -2,7 +2,7 @@ version: '3'
 
 services:
   srs:
-    image: daocloud.io/shaobo_wu/srs-docker:master-67d9517
+    image: wushaobo/srs-docker:1.0
     command: /tmp/srs/gen_conf_and_run.sh
     ports:
       - "21935:1935"
