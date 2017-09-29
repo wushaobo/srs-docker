@@ -8,9 +8,7 @@ dest_conf_path=${srs_home}/conf/hls_hooks.conf
 function gen_conf () {
     cd /tmp/srs/config_generator
 
-    cd gen_conf
-    venv/bin/python ./gen_conf.py
-    cd -
+    venv/bin/env2conf -i templates -o output
 
     cp output/srs_hls_hooks.conf ${dest_conf_path}
 }

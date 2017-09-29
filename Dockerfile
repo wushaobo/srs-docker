@@ -30,7 +30,7 @@ EXPOSE 8080
 EXPOSE 80
 
 COPY config_generator /tmp/srs/config_generator
-RUN cd /tmp/srs/config_generator/gen_conf && \
+RUN cd /tmp/srs/config_generator && \
 	./setup_venv.sh && \
 	cd -
 
