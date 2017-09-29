@@ -7,5 +7,5 @@ services:
     ports:
       - "21935:1935"
       - "20080:80"
-    environment:
+    env_file:
       - config.env
