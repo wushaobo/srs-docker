@@ -1,12 +1,12 @@
 # srs-docker
 This repository build docker image for [SRS](https://github.com/ossrs/srs).
 
-You can checkout the docker image of [wushaobo/srs-docker](https://hub.docker.com/r/wushaobo/srs-docker/). The tag used below is **1.0** .
+You can checkout the docker image of [wushaobo/srs-docker](https://hub.docker.com/r/wushaobo/srs-docker/). The tag used below is **1.1** .
 
 ## SRS in image
 
 ### Version
-The version of SRS inside is [v2.0-r2](http://ossrs.net/srs.release/releases/#srs2.0r2).
+The version of SRS inside is [v2.0-r5](https://github.com/ossrs/srs/releases/tag/v2.0-r5).
 
 
 ### 3rd party libs change
@@ -38,7 +38,7 @@ version: '3'
 
 services:
   srs:
-    image: wushaobo/srs-docker:1.0
+    image: wushaobo/srs-docker:1.1
     command: /opt/srs/objs/srs -c /opt/srs/conf/http.flv.live.conf
     ports:
       - "28080:8080"
@@ -52,7 +52,13 @@ Run the command as follows.
 docker-compose -f samples/compose.srs-http-flv.yml up -d srs
 ```
 
-Then, your inbound RTMP stream could be pushed to the 1935 port of srs container (or 21935 port of the docker host), and the outbound http flv stream could be pulled from the 8080 port of srs container (or 28080 port of the docker host).
+Then, your inbound RTMP stream could be pushed to the 1935 port of srs container (or 21935 port of the docker host), 
+
+e.g, push stream to `rtmp://10.66.66.66:21935/app_name/stream_name` with OBS
+
+and the outbound http flv stream could be pulled from the 8080 port of srs container (or 28080 port of the docker host).
+
+e.g, watch live on `http://10.66.66.66:28080/app_name/stream_name.flv` with VLC player
 
 ### How to extend it
 The SRS source includes many config files as samples, but you usually need to customize one config for your exclusive requirement.
@@ -106,7 +112,7 @@ version: '3'
 
 services:
   srs:
-    image: wushaobo/srs-docker:1.0
+    image: wushaobo/srs-docker:1.1
     command: /tmp/srs/gen_conf_and_run.sh
     ports:
       - "21935:1935"
@@ -128,6 +134,13 @@ Run the command as follows,
 docker-compose -f samples/compose.srs-hls-with-hooks.yml up -d srs
 ```
 
-Then, your inbound RTMP stream could be pushed to the 1935 port of srs container (or 21935 port of the docker host), and the outbound HLS could be pulled from the 80 port of srs container (or 20080 port of the docker host).
+Then, your inbound RTMP stream could be pushed to the 1935 port of srs container (or 21935 port of the docker host), 
 
-And when the RTMP stream is successfully pushing/disconnecting to/from SRS, the callback request to `SRS_CALLBACK_URL` will be sent.
+e.g, push stream to `rtmp://10.66.66.66:21935/app_name/stream_name` with OBS
+
+and the outbound HLS could be pulled from the 80 port of srs container (or 20080 port of the docker host).
+
+e.g, watch live on `http://10.66.66.66:20080/app_name/stream_name.m3u8` with VLC player
+
+Additionally, while the RTMP stream is successfully pushing/disconnecting to/from SRS, the callback request to `SRS_CALLBACK_URL` will be sent to the hook API address expecting `200` as status code and integer `0` as response body if success.
+

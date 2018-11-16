@@ -2,22 +2,20 @@ FROM debian:jessie
 
 COPY files/cn.list /etc/apt/sources.list
 RUN apt-get update && \
-    apt-get install -y vim wget unzip telnet sudo net-tools locales-all python-pip ffmpeg
+    apt-get install -y --no-install-recommends sudo ffmpeg wget python-pip zlib1g-dev && \
+    apt-get clean
+# sudo: for srs configure dependency
+# python-pip: for conf generation from env
+# zlib1g-dev: for nginx gzip module
 
-ENV LC_ALL en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US.UTF-8
-
-RUN wget -q https://github.com/ossrs/srs/archive/v2.0-r2.zip -P /tmp/ && \
+RUN wget -q https://github.com/ossrs/srs/archive/v2.0-r5.tar.gz -P /tmp/ && \
 	cd /tmp && \
-	unzip v2.0-r2.zip && \
-	rm -f v2.0-r2.zip && \
+	tar -zxf v2.0-r5.tar.gz && \
+	rm -f v2.0-r5.tar.gz && \
 	mkdir -p /opt/srs/ && \
-	mv srs-2.0-r2/trunk/* /opt/srs/ && \
-	rm -rf srs-2.0-r2
+	mv srs-2.0-r5/trunk/* /opt/srs/ && \
+	rm -rf srs-2.0-r5
 
-# for nginx gzip module
-RUN apt-get install zlib1g-dev
 
 WORKDIR /opt/srs
 RUN ./configure --with-hls --with-nginx --with-transcode --with-ingest --with-stat --with-http-callback --with-http-server --with-http-api --log-trace \
@@ -25,9 +23,7 @@ RUN ./configure --with-hls --with-nginx --with-transcode --with-ingest --with-st
 				--jobs=4 --x86-x64 --log-trace && \
 	make
 
-EXPOSE 1935
-EXPOSE 8080
-EXPOSE 80
+EXPOSE 1935 8080 80
 
 COPY config_generator /tmp/srs/config_generator
 RUN cd /tmp/srs/config_generator && \
